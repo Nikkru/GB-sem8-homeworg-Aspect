@@ -1,11 +1,10 @@
 package com.example.sem6apiEx1.service.impl;
 
-import com.example.sem6apiEx1.aspect.Registration;
+import com.example.sem6apiEx1.aspect.TrackUserAction;
 import com.example.sem6apiEx1.model.Product;
 import com.example.sem6apiEx1.repository.ProductRepository;
 import com.example.sem6apiEx1.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -16,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    @Registration
+    @TrackUserAction(mapping = "GET")
     @Override
     public List<Product> getAllProducts() {
         return productRepository.findAll();
@@ -30,14 +29,14 @@ public class ProductServiceImpl implements ProductService {
 //            return null;
 //        }
 //    }
-    @Registration
+    @TrackUserAction(mapping = "GET")
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(
                 String.format("Product with id [%d] was not found!", id)));
     }
 
-    @Registration
+    @TrackUserAction(mapping = "PUT")
     @Override
     public Product updateProduct(Product product) {
         Product updateProduct = getProductById(product.getId());
@@ -48,14 +47,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(updateProduct);
     }
 
-    @Registration
+    @TrackUserAction(mapping = "POST")
     @Override
     public Product createProduct(Product product) {
 
         return productRepository.save(product);
     }
 
-    @Registration
+    @TrackUserAction(mapping = "DELETE")
     @Override
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
